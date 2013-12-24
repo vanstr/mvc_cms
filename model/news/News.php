@@ -10,10 +10,6 @@ class News extends Model {
 
     public $tplName = 'news/news';
 
-    public function __construct(){
-        d_Echo("Model class constructed : ". get_class ($this) );
-    }
-
     public $allowedActions = array(
         'addcomment' => 'actionAddComment',
         // must be admin
@@ -24,8 +20,8 @@ class News extends Model {
     );
 
     public function actionAddNews(){
-        if( $this->user->isAdmin() ){
-            $this->db->insertQuery("news", array("topic" => "new", "text"=>"new"));
+        if( $this->registry->user->isAdmin() ){
+            $this->registry->db->insertQuery("news", array("topic" => "new", "text"=>"new"));
         }
         else{
             d_Echo("access denied");
@@ -33,8 +29,8 @@ class News extends Model {
     }
 
     public function actionDeleteComment(){
-        if( $this->user->isAdmin() ){
-            $this->db->deleteQuery( "comments", array("id" => (int)$_GET['comment_id']) );
+        if( $this->registry->user->isAdmin() ){
+            $this->registry->db->deleteQuery( "comments", array("id" => (int)$_GET['comment_id']) );
             header('Location: ?page=news&id='.$_GET['id'] );
         }
         else{
@@ -43,8 +39,8 @@ class News extends Model {
     }
 
     public function actionDeleteNews(){
-        if( $this->user->isAdmin() ){
-            $this->db->deleteQuery( "news", array("id" => (int)$_GET['id']) );
+        if( $this->registry->user->isAdmin() ){
+            $this->registry->db->deleteQuery( "news", array("id" => (int)$_GET['id']) );
             header('Location: ?page=news' );
         }
         else{
@@ -54,7 +50,7 @@ class News extends Model {
 
     public function actionAddComment(){
         $sql = "INSERT INTO comments ( author, email, news_id, message, date ) VALUES ('".escape($_POST['author'])."', '".escape($_POST['email'])."', ".(int)$_POST['newsID'].", '".escape($_POST['message'])."', now())";
-        $res = $this->db->query($sql);
+        $res = $this->registry->db->query($sql);
         if( $res == true ){
             d_echo("actionAddComment: true" );
             d_echo($_POST);
@@ -64,48 +60,49 @@ class News extends Model {
     public function render() {
         //header('Location: ?page=news' );
 
-        $this->tpl->assign("newsHeader", $this->getTextByName("newsHeader"));
+        $this->registry->tpl->assign("newsHeader",
+            $this->getTextByName("newsHeader"));
 
         if (isset($_GET['id']) && $_GET['id'] != '') {
 
             $sql = "SELECT * FROM news WHERE id = '".(int)$_GET['id']."'";
-            $query = $this->db->query($sql);
+            $query = $this->registry->db->query($sql);
             $newsArticle = $query->rows;
-            if($newsArticle == null) return; // TODO
+            if($newsArticle == null) return ""; // TODO
             d_echo($newsArticle);
-            $this->tpl->assign("newsArticles", $newsArticle);
+            $this->registry->tpl->assign("newsArticles", $newsArticle);
 
-            $articleHTML = $this->tpl->draw('news/newsArticles', $return_string = true);
-            $this->tpl->assign("newsArticle", $articleHTML);
+            $articleHTML = $this->registry->tpl->draw('news/newsArticles', $return_string = true);
+            $this->registry->tpl->assign("newsArticle", $articleHTML);
 
             //*
 
-            $this->tpl->assign("newsID", $_GET['id']);
-            $this->tpl->assign("commentsHeader", $this->getTextByName("commentsHeader"));
-            $this->tpl->assign("commentAddNew", $this->getTextByName("commentAddNew"));
-            $this->tpl->assign("commentAddNewButton", $this->getTextByName("commentAddNewButton"));
+            $this->registry->tpl->assign("newsID", $_GET['id']);
+            $this->registry->tpl->assign("commentsHeader", $this->getTextByName("commentsHeader"));
+            $this->registry->tpl->assign("commentAddNew", $this->getTextByName("commentAddNew"));
+            $this->registry->tpl->assign("commentAddNewButton", $this->getTextByName("commentAddNewButton"));
             $sql = "SELECT * FROM comments WHERE news_id = '".(int)$_GET['id']."'";
-            $query = $this->db->query($sql);
+            $query = $this->registry->db->query($sql);
             $comments = $query->rows;
             //if($comments == null) return; // TODO
             //d_echo($comments);
-            $this->tpl->assign("comments", $comments);
-            $newsComments = $this->tpl->draw('comments', $return_string = true);
-            $this->tpl->assign("newsComments", $newsComments);
+            $this->registry->tpl->assign("comments", $comments);
+            $newsComments = $this->registry->tpl->draw('comments', $return_string = true);
+            $this->registry->tpl->assign("newsComments", $newsComments);
             //*/
 
-            $modelHTML = $this->tpl->draw('news/newsItem', $return_string = true);
+            $modelHTML = $this->registry->tpl->draw('news/newsItem', $return_string = true);
         } else {
 
             $sql = "SELECT * FROM news";
-            $query = $this->db->query($sql);
+            $query = $this->registry->db->query($sql);
             $newsArticles = $query->rows;
-            $this->tpl->assign("newsArticles", $newsArticles);
+            $this->registry->tpl->assign("newsArticles", $newsArticles);
 
-            $newsHTML = $this->tpl->draw('news/newsArticles', $return_string = true);
-            $this->tpl->assign("news", $newsHTML);
+            $newsHTML = $this->registry->tpl->draw('news/newsArticles', $return_string = true);
+            $this->registry->tpl->assign("news", $newsHTML);
 
-            $modelHTML = $this->tpl->draw($this->tplName, $return_string = true);
+            $modelHTML = $this->registry->tpl->draw($this->tplName, $return_string = true);
         }
         return $modelHTML;
     }

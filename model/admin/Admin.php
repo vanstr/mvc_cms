@@ -13,18 +13,13 @@ class Admin extends Model{
         'edittext' => 'actionEditText'
     );
 
-    public function __construct() {
-        d_Echo("Model class constructed : ". get_class ($this) );
-
-    }
-
     public function getModelHeaderHTML() {
         //return '<link href="' . DIR_WEB_VIEW . 'css/contact.css" rel="stylesheet"/>';
     }
 
     public function actionEditText(){
         d_echo($_POST);
-        $this->db->updateQuery("texts", array('text' => $_POST['newvalue']), array('id'=>$_POST['id']));
+        $this->registry->db->updateQuery("texts", array('text' => $_POST['newvalue']), array('id'=>$_POST['id']));
 
         return $this->getTextByID($_POST['id']);
     }
@@ -35,21 +30,21 @@ class Admin extends Model{
         $adminPart = '';
 
         if(isset($_GET['part']) && $_GET['part'] != ''){
-            if( $_GET['part'] == 'portfolio' ) $adminPart = (new AdminPortfolio($this->tpl, $this->db));
+            if( $_GET['part'] == 'portfolio' ) $adminPart = (new AdminPortfolio($this->registry));
             //elseif( $_GET['part'] == 'news' ) $adminPart = (new AdminNews($this->tpl, $this->db));
-            elseif( $_GET['part'] == 'contact' ) $adminPart = (new AdminContact($this->tpl, $this->db));
-            else $adminPart = (new AdminText($this->tpl, $this->db));
+            elseif( $_GET['part'] == 'contact' ) $adminPart = (new AdminContact($this->registry));
+            else $adminPart = (new AdminText($this->registry));
         }
         else{
-            $adminPart = (new AdminText($this->tpl, $this->db));
+            $adminPart = (new AdminText($this->registry));
         }
 
         $adminPartHtml = $adminPart->render();
 
-        $this->tpl->assign("adminPart", $adminPartHtml);
-        $this->tpl->assign("adminPartHeader", get_class($adminPart) );
+        $this->registry->tpl->assign("adminPart", $adminPartHtml);
+        $this->registry->tpl->assign("adminPartHeader", get_class($adminPart) );
 
-        $modelHTML = $this->tpl->draw($this->tplName, $return_string = true);
+        $modelHTML = $this->registry->tpl->draw($this->tplName, $return_string = true);
 
         return $modelHTML;
 

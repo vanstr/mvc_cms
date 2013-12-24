@@ -2,17 +2,17 @@
 
 class Controller {
 
+    /** @var Model */
     public $model;
-    public $url;
-    public $tpl;
-    public $db;
+
     public $modelActionResult;
-    public $user;
 
-    public function __construct() {
+    /** @var Registry */
+    public $registry;
 
+    public function __construct($registry) {
 
-        $this->initDB();
+        $this->registry = $registry;
 
         $this->initModel();
 
@@ -22,42 +22,23 @@ class Controller {
 
     }
 
-    public function initDB(){
-        $db = new MySQL(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-        $this->db = $db;
-
-        /*
-        $sql = "SELECT * FROM messages";
-        $query = $db ->query($sql);
-        d_echo($query);
-        */
-    }
-
     public function initModel(){
 
 
         if (!isset($_GET['page'])) {
-            $this->model = new News();
+            $this->model = new News($this->registry);
         } else {
             $modelClass = $_GET['page'];
-            $file = DIR_MODEL . $modelClass . TPL_EXTENSION;
+            //$file = DIR_MODEL . $modelClass . TPL_EXTENSION;
 
             d_echo(' class: ' . class_exists($modelClass));
             if ( class_exists($modelClass)) {
-                $this->model = new $modelClass();
+                $this->model = new $modelClass($this->registry);
             } else {
-                $this->model = new News();
+                $this->model = new News($this->registry);
             }
         }
 
-        $this->model->db = $this->db;
-
-        if( isset($_SESSION['user_id']) && $_SESSION['user_id']!= null) $user = new User($this->db,$_SESSION['user_id']);
-        else $user = new User();
-
-        $this->model->user = $user;
-        $this->user = $user;
-        //d_echo($user->isAdmin());
     }
 
     public function initTpl(){
@@ -78,22 +59,26 @@ class Controller {
         $tpl->assign("modelFooter","");
 
         // TODO
-        $tpl->assign("admin", $this->user->isAdmin());
+        $tpl->assign("admin", $this->registry->user->isAdmin());
 
-        //assign to objects
-        $this->tpl=$tpl;
-        $this->model->tpl=$tpl;
+        //assign to registry objects
+        $this->registry->tpl = $tpl;
+
     }
 
 
     public function render() {
 
+        $tpl = $this->registry->tpl;
 
-        $tpl = $this->tpl;
+        $modelNavBar = new NavigationBar($this->registry);
+        $navbar = $modelNavBar->render();
 
-        $navbar = (new NavigationBar($tpl, $this->db, $this->user))->render();
-        $body = $this->model->render();
-        $footer = (new Footer($tpl, $this->db, $this->user))->render();
+        $modelBody = $this->model;
+        $body = $modelBody->render();
+
+        $modelFooter = new Footer($this->registry);
+        $footer = $modelFooter->render();
 
 
         $tpl->assign("navbar", $navbar);
@@ -107,6 +92,7 @@ class Controller {
     }
 
 
+    // TODO refactor
     public function modelDooAction(){
         d_Echo($_POST);
         //d_echo(array_key_exists(strtolower($_POST['action']), $this->model->allowedActions));
@@ -125,7 +111,8 @@ class Controller {
         ) {
 
             $action = $this->model->allowedActions[$_GET['action']];
-            $res = $this->model->$action();
+            //$res =
+            $this->model->$action();
 
         }
         //d_echo("nop");

@@ -10,27 +10,23 @@ class NavigationBar extends Model {
 
     public $tplName = 'navbar';
 
-    public function __construct($tpl = null, $db = null, $user = null) {
-        $this->tpl = $tpl;
-        $this->db = $db;
-        if( $user != null ) $this->user = $user;
-        d_Echo("Model class constructed : " . get_class($this));
-    }
 
     public function render() {
 
-        $this->tpl->assign("loggedOut", !($this->user->isLoggedIn()));
-        $this->tpl->assign("admin",       $this->user->isAdmin());
-        $this->tpl->assign("pageAdmin",   $this->getTextByName("pageAdmin"));
-        $this->tpl->assign("loginHeader", $this->getTextByName("loginHeader"));
-        $this->tpl->assign("loginLogout", $this->getTextByName("loginLogout"));
-        $this->tpl->assign("navbarTitle", $this->getTextByName("navbarTitle"));
-        $this->tpl->assign("pageAboutus", $this->getTextByName("pageAboutus"));
-        $this->tpl->assign("pageContact", $this->getTextByName("pageContact"));
-        $this->tpl->assign("pageHome", $this->getTextByName("pageHome"));
-        $this->tpl->assign("pagePortfolio", $this->getTextByName("pagePortfolio"));
+        $tpl = $this->registry->tpl;
 
-        $modelHTML = $this->tpl->draw($this->tplName, $return_string = true);
+        $tpl->assign("loggedOut", !($this->registry->user->isLoggedIn()) );
+        $tpl->assign("admin",       $this->registry->user->isAdmin());
+        $tpl->assign("pageAdmin",   $this->getTextByName("pageAdmin"));
+        $tpl->assign("loginHeader", $this->getTextByName("loginHeader"));
+        $tpl->assign("loginLogout", $this->getTextByName("loginLogout"));
+        $tpl->assign("navbarTitle", $this->getTextByName("navbarTitle"));
+        $tpl->assign("pageAboutus", $this->getTextByName("pageAboutus"));
+        $tpl->assign("pageContact", $this->getTextByName("pageContact"));
+        $tpl->assign("pageHome",    $this->getTextByName("pageHome"));
+        $tpl->assign("pagePortfolio", $this->getTextByName("pagePortfolio"));
+
+        $modelHTML = $tpl->draw($this->tplName, $return_string = true);
 
         return $modelHTML;
     }

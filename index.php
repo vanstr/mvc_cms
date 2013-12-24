@@ -10,9 +10,14 @@ include DIR_SYSTEM . "classLoading.php";
 
 d_echo($_SESSION);
 
+$registry = new Registry();
+$registry->db = new MySQL(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
 
-$controller = new Controller();
+$registry->user = new User($registry);
+
+
+$controller = new Controller($registry);
 
 if( isset($_POST['silent']) && $_POST['silent'] == true ){
     echo $controller->modelActionResult;

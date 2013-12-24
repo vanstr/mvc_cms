@@ -8,28 +8,31 @@
 
 abstract class Model {
 
-    public $db = null;
     public $action = null;
-    public $tpl;
-    public $tplName;
-    public $user;
+
+    /** @var Registry */
+    public $registry;
 
     public $allowedActions = array(); // all keys should be in lower case
 
     public function getTplName(){
-
-        return $this->$tplName;
-
+        return $this->registry->tplName;
     }
 
     public function getModelHeaderHTML() {
         return "";
     }
 
+
+    public function __construct($registry){
+        $this->registry=$registry;
+        d_Echo("Model class constructed : ". get_class ($this) );
+    }
+
     public function render() {
 
-        $modelHTML = $this->tpl->draw($this->tplName, $return_string = true);
-        $this->tpl->assign("modelHeader", $this->getModelHeaderHTML());
+        $modelHTML = $this->registry->tpl->draw($this->registry->tplName, $return_string = true);
+        $this->registry->tpl->assign("modelHeader", $this->getModelHeaderHTML());
 
         return $modelHTML;
 
@@ -38,19 +41,19 @@ abstract class Model {
     public function getTextByName($name){
 
         $sql = "SELECT text, id FROM texts WHERE name = '".escape($name)."' ";
-        $queryRes = $this->db->query($sql);
+        $queryRes = $this->registry->db->query($sql);
 
         if( $queryRes->num_rows == 0 ){ // no entry in db
-            $this->db->insertQuery("texts", array("name"=>$name, "text"=>$name));
+            $this->registry->db->insertQuery("texts", array("name"=>$name, "text"=>$name));
             $sql = "SELECT text, id FROM texts WHERE name = '".escape($name)."' ";
-            $queryRes = $this->db->query($sql);
+            $queryRes = $this->registry->db->query($sql);
         }
         //d_echo($queryRes->num_rows);
 
         $res = $queryRes->row;
         //d_echo($res);
         //d_echo($this->user);
-        if( ($this->user) != null && $this->user->isAdmin() ){
+        if( ($this->registry->user) != null && $this->registry->user->isAdmin() ){
             $html = '<div class="edit" id="'.$res['id'].'">'.$res['text'].'</div>';
         }
         else{
@@ -64,7 +67,7 @@ abstract class Model {
     public function getTextByID($id){
 
         $sql = "SELECT text FROM texts WHERE id = '".$id."' ";
-        $res = $this->db->query($sql)->row['text'];
+        $res = $this->registry->db->query($sql)->row['text'];
 
         return $res;
     }

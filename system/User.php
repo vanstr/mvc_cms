@@ -6,30 +6,39 @@
  * Time: 20:01
  */
 
-class User extends Model{
+class User{
 
     private $admin = false;
     private $loggedIn = false;
-    public $user_id;
+    private $id = 0;
 
-    public function __construct($db = null, $userId = null) {
-        if( $db != null) $this->db = $db;
-        if ($userId != null) {
+    /** @var Registry */
+    public $registry;
 
+
+    public function __construct($registry) {
+
+        $this->registry = $registry;
+
+        if( isset($_SESSION['user_id']) && $_SESSION['user_id'] != null ){
+            d_echo("user constructor");
+            $userId = (int)$_SESSION['user_id'];
             $sql = "SELECT * FROM users WHERE id= " . $userId;
-
-            $result = $this->db->query($sql);
-            d_echo($result);
+            $db = $this->registry->db;
+            $result = $db->query($sql);
             if ($result->num_rows != 0) {
                 if (($result->row['type']) == "admin") {
                     $this->admin = true;
                 }
-                $this->user_id = $userId;
+                $this->id = $userId;
                 $this->loggedIn = true;
             }
         }
-        d_Echo("Model class constructed : " . get_class($this));
         d_echo($this);
+    }
+
+    public function getID() {
+        return $this->id;
     }
 
     public function isLoggedIn() {

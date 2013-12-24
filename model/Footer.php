@@ -9,19 +9,10 @@
 class Footer extends Model {
     public $tplName = 'footer';
 
-    public function __construct($tpl = null, $db = null, $user = null) {
-        $this->tpl = $tpl;
-        $this->db = $db;
-        if( $user != null ) $this->user = $user;
-        d_Echo("Model class constructed : " . get_class($this));
-    }
-
-
-
     public function render() {
 
-        $this->tpl->assign("footerInfo", $this->getTextByName("footerInfo"));
-        $this->tpl->assign("footerCopyright", $this->getTextByName("footerCopyright"));
+        $this->registry->tpl->assign("footerInfo", $this->getTextByName("footerInfo"));
+        $this->registry->tpl->assign("footerCopyright", $this->getTextByName("footerCopyright"));
         /*
         $this->tpl->assign("portfolioHeader", $this->getTextByName("portfolioHeader"));
 
@@ -34,7 +25,7 @@ class Footer extends Model {
         $this->tpl->assign("navbarTitle", $portfolioItem);
 
         */
-        $modelHTML = $this->tpl->draw($this->tplName, $return_string = true);
+        $modelHTML = $this->registry->tpl->draw($this->tplName, $return_string = true);
 
         return $modelHTML;
     }
