@@ -11,13 +11,19 @@ include DIR_SYSTEM . "classLoading.php";
 d_echo($_SESSION);
 
 $registry = new Registry();
-$registry->db = new MySQL(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
+$db = new MySQL(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+$registry->db = $db;
 
-$registry->user = new User($registry);
+$user = new User($db);
+$registry->user = $user;
 
+$c = new ControllerFront();
+$c->execute();
 
-$controller = new Controller($registry);
+/*
+
+$controller = new Controller2($registry);
 
 if( isset($_POST['silent']) && $_POST['silent'] == true ){
     echo $controller->modelActionResult;
@@ -25,7 +31,7 @@ if( isset($_POST['silent']) && $_POST['silent'] == true ){
 else{
     $html = $controller -> render();
     echo $html;
-}
+}*/
 
 //ob_end_clean();
 ?>

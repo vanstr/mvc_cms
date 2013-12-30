@@ -1,6 +1,6 @@
 <?php
 
-class Controller {
+class Controller2 {
 
     /** @var Model */
     public $model;

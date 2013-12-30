@@ -6,51 +6,24 @@
  * Time: 00:04
  */
 
+
 function escape($value) {
     return mysql_real_escape_string(htmlspecialchars($value));
 }
 
+function isSilentRequest(){
 
+    $result = false;
 
-// Content -------------------------------------------------------------------->
-// d_html_escape                    - escape HTML
-// d_echo                           - print content between <pre> tags, that allows to see data in "nice" format in HTML page
-// d_mem                            - print allocated memory in KB.
-// ---------------------------------------------------------------------------->
+    if( isset($_POST['silent']) && $_POST['silent'] == true ){
+        $result = true;
+    }
 
-if( !function_exists('d_html_escape') ){
-
-    // d_html_escape()
-    //   escape HTML
-    // parameters:
-    //   $mixed - string, int, float or array.
-    // return:
-    //   string - escaped string (if $mixed was string, int or float)
-    //   array  - escaped array (if $mixed was array)
-    // notes:
-    //   - WARNING: must be used only by programmers, while development
-    // dependancies:
-    //   -
-    // history:
-    //   03.05.2011 - AL - created
-    //   01.08.2011 - AL - only string are html-escaped
-    function d_html_escape($mixed){
-
-        if( is_array($mixed) ){
-            $keys = array_keys($mixed);
-            $ci = count($keys);
-            for( $i = 0; $i < $ci; $i++ ){
-                $mixed[$keys[$i]] = d_html_escape($mixed[$keys[$i]]);
-            }
-            return $mixed;
-        }
-
-        // escape some symbols with predefined entities
-        return ( is_string($mixed) ) ? htmlspecialchars($mixed) : $mixed;;
-    } // d_html_escape
+    return $result;
 }
 
-if( APP_DEBUG ){
+
+if( APP_DEBUG && !isSilentRequest() ){
 
     // d_echo()
     //   print content between <pre> tags, that allows to see data in "nice" format in HTML page
@@ -66,13 +39,6 @@ if( APP_DEBUG ){
     //   NULL
     // notes:
     //   - WARNING: must be used only by programmers, while development
-    // dependancies:
-    //   -
-    // history:
-    //   23.07.2010 - AL - created
-    //   05.08.2011 - AL - bool & NULL always printed with var_dump
-    //   18.08.2011 - AL - values always HTML-escaped
-    //   01.09.2011 - AL - 'b' (bold) added
     function d_echo($mixed, $mode = '', $die = false){
 
         if( $mixed === NULL || is_bool($mixed) || $mixed === '' ) $mode .= 'd';
@@ -95,27 +61,32 @@ if( APP_DEBUG ){
         if( strpos($mode, 'l') !== false ) d_echo('----------');
 
         if( $die == true ){ die(); } // stop executin of script
-    } // d_echo
-}
-else{
-    function d_echo($mixed, $mode = '', $die = false){}
-}
+    }
 
-
-if( !function_exists('d_mem') ){
-
-    // d_mem()
-    //   print allocated memory in KB.
+    // d_html_escape()
+    //   escape HTML
     // parameters:
-    //   -
+    //   $mixed - string, int, float or array.
     // return:
-    //   true - OK
+    //   string - escaped string (if $mixed was string, int or float)
+    //   array  - escaped array (if $mixed was array)
     // notes:
     //   - WARNING: must be used only by programmers, while development
-    // dependancies:
-    //   d_echo()
-    // history:
-    //   22.02.2011 - AL - created
+    function d_html_escape($mixed){
+
+        if( is_array($mixed) ){
+            $keys = array_keys($mixed);
+            $ci = count($keys);
+            for( $i = 0; $i < $ci; $i++ ){
+                $mixed[$keys[$i]] = d_html_escape($mixed[$keys[$i]]);
+            }
+            return $mixed;
+        }
+
+        // escape some symbols with predefined entities
+        return ( is_string($mixed) ) ? htmlspecialchars($mixed) : $mixed;;
+    }
+
     function d_mem(){
 
         $mem = memory_get_usage();
@@ -129,7 +100,16 @@ if( !function_exists('d_mem') ){
         d_echo($mem);
 
         return true;
-    } // d_mem
+    }
 }
+else{
+    function d_mem(){}
+    function d_echo($mixed, $mode = '', $die = false){}
+    function d_html_escape($mixed){}
+}
+
+
+
+
 
 ?>

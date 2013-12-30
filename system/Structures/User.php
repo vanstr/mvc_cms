@@ -13,18 +13,18 @@ class User{
     private $id = 0;
 
     /** @var Registry */
-    public $registry;
+    public $db;
 
 
-    public function __construct($registry) {
+    public function __construct($db) {
 
-        $this->registry = $registry;
+        $this->db = $db;
 
         if( isset($_SESSION['user_id']) && $_SESSION['user_id'] != null ){
             d_echo("user constructor");
             $userId = (int)$_SESSION['user_id'];
             $sql = "SELECT * FROM users WHERE id= " . $userId;
-            $db = $this->registry->db;
+            $db = $this->db->db;
             $result = $db->query($sql);
             if ($result->num_rows != 0) {
                 if (($result->row['type']) == "admin") {
