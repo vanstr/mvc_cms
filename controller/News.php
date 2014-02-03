@@ -6,7 +6,7 @@
  * Time: 23:21
  */
 
-class ControllerNews extends Controller {
+class NewsController extends Controller {
 
 
 

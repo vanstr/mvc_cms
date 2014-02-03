@@ -18,7 +18,7 @@ $registry->db = $db;
 $user = new User($db);
 $registry->user = $user;
 
-$c = new ControllerFront();
+$c = new ControllerFront($registry);
 $c->execute();
 
 /*

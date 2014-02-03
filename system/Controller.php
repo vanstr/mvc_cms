@@ -19,11 +19,30 @@ class Controller {
 
     }
 
-    public function doAction(){
+    /**
+     * process POST GET requests
+     */
+    public function processRequests(){
+
+        d_echo(get_class_methods(get_class ($this)));
+
+        if( isset($_GET['action']) ){
+            $methodName = "actionGet".ucfirst(strtolower(escape($_GET['action'])));
+            if( method_exists($this, $methodName) ){
+                $this->$methodName();
+            }
+        }
+
+        if( isset($_POST['action']) ){
+            $methodName = "actionGet".ucfirst(strtolower(escape($_POST['action'])));
+            if( method_exists($this, $methodName) ){
+                $this->$methodName();
+            }
+        }
 
     }
 
-    public function index(){
+    public function render(){
         //$this->registry->
         d_echo("Contoller:". get_class ($this));
     }

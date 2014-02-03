@@ -24,7 +24,6 @@ class Controller2 {
 
     public function initModel(){
 
-
         if (!isset($_GET['page'])) {
             $this->model = new News($this->registry);
         } else {
@@ -100,20 +99,17 @@ class Controller2 {
             && $_POST['action'] != ''
             && array_key_exists(strtolower($_POST['action']), $this->model->allowedActions)
         ) {
-
             $action = $this->model->allowedActions[$_POST['action']];
             $res = $this->model->$action();
             $this -> modelActionResult = $res;
         }
+
         if(    isset($_GET['action'])
             && $_GET['action'] != ''
             && array_key_exists(strtolower($_GET['action']), $this->model->allowedActions)
         ) {
-
             $action = $this->model->allowedActions[$_GET['action']];
-            //$res =
             $this->model->$action();
-
         }
         //d_echo("nop");
     }

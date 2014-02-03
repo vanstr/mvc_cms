@@ -6,45 +6,49 @@
  * Time: 19:27
  */
 
-class ControllerFront{
+class ControllerFront extends Controller{
 
-    public function execute(){
+    public function __construct($registry){
+        $this->registry = $registry;
+    }
 
-        // get controller
-        $controllerClass = $this->getControllerClass();
+    public function execute() {
 
-        $controller = new $controllerClass(new Registry());
+        $controller = $this->getController();
 
-        if( !isSilentRequest() ){
-            d_echo("not silent");
-            // render
-            $controller -> index();
+        $controller->processRequests();
+
+        if (!isSilentRequest()) {
+            $controller->render();
         }
 
         return $controller->response;
-
     }
 
+    public function getController() {
 
-    public function getControllerClass(){
+        $className = $this->getControllerName();
 
+        $controller = new $className($this->registry);
+
+        return $controller;
+    }
+
+    public function getControllerName() {
 
         // TODO -> move to config
         $controllerClassPrefix = 'Controller';
-        $defaultClassName = 'news';
+        $defaultControllerName = 'Main'.$controllerClassPrefix;
 
-        if ( isset($_GET['page']) && class_exists($_GET['page']) ){
-            $className = $_GET['page'];
+        if ( isset($_GET['page']) && !class_exists(escape($_GET['page']).$controllerClassPrefix) ) {
+            $className = escape($_GET['page']).$controllerClassPrefix;
+        } else {
+            $className = $defaultControllerName;
         }
-        else{
-            $className = $defaultClassName;
-        }
-
-        $className = $controllerClassPrefix.$className;
-
-        d_echo("controller name: ". $className);
+        //d_echo("controller name: " . $className);
 
         return $className;
     }
 }
+
 ?>
