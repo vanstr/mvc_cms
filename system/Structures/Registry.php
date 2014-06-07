@@ -19,6 +19,7 @@ class Registry {
 
     /** @var RainTPL */
     public $tpl;
+
     public $tplName;
 
 } 

@@ -15,6 +15,11 @@ class Controller {
     public $registry;
 
 
+
+    public function __construct($registry){
+        $this->registry = $registry;
+    }
+
     public function validate(){
 
     }
@@ -24,6 +29,7 @@ class Controller {
      */
     public function processRequests(){
 
+        d_echo("Class:".get_class($this));
         d_echo(get_class_methods(get_class ($this)));
 
         if( isset($_GET['action']) ){
@@ -42,9 +48,27 @@ class Controller {
 
     }
 
-    public function render(){
-        //$this->registry->
+    public function renderStandart(){
         d_echo("Contoller:". get_class ($this));
+
+
+        $footer = (new Footer($this->registry))->render();
+        $navBar = (new NavigationBar($this->registry))->render();
+        $body = "";
+
+        $tpl = $this->registry->tpl;
+        $tpl->assign("navbar", $navBar);
+        $tpl->assign("body", $body);
+        $tpl->assign("footer", $footer);
+
+        // specific rendering
+        $this->render();
+
     }
+
+    public function render(){
+
+    }
+
 
 } 

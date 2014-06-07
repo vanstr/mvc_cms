@@ -9,5 +9,12 @@
 class NewsController extends Controller {
 
 
+    public function render(){
+
+        $body = (new News($this->registry))->render();
+
+        $this->registry->tpl->assign("body", $body);
+
+    }
 
 } 

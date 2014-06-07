@@ -8,7 +8,7 @@ require_once "config.php";
 // load classes and functions
 include DIR_SYSTEM . "classLoading.php";
 
-d_echo($_SESSION);
+//d_echo($_SESSION);
 
 $registry = new Registry();
 
@@ -18,8 +18,33 @@ $registry->db = $db;
 $user = new User($db);
 $registry->user = $user;
 
+// TODO move configuration to function
+//raintpl::configure("base_url", DIR_APP );
+raintpl::configure("tpl_dir", DIR_RAINTPL_TPL);
+raintpl::configure("cache_dir", DIR_RAINTPL_TMP);
+raintpl::configure("tpl_ext", "php");
+raintpl::configure("path_replace", false);
+raintpl::configure("debug", APP_DEBUG);
+//initialize a Rain TPL object
+$tpl = new RainTPL;
+$tpl->assign("dirSRC", DIR_WEB_VIEW);
+$tpl->assign("title", "Hello World!");
+$tpl->assign("modelHeader","");
+$tpl->assign("modelFooter","");
+// TODO
+$tpl->assign("admin", $registry->user->isAdmin());
+//assign to registry objects
+$registry->tpl = $tpl;
+
+
 $c = new ControllerFront($registry);
 $c->execute();
+
+
+// you can draw the output  $tpl->draw( 'page' );
+// or the template output string by setting $return_string = true:
+$tpl = $c->registry->tpl;
+echo $tpl->draw('html', $return_string = true);
 
 /*
 
@@ -34,4 +59,6 @@ else{
 }*/
 
 //ob_end_clean();
+
+
 ?>
