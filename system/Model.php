@@ -54,7 +54,7 @@ abstract class Model {
         //d_echo($res);
         //d_echo($this->user);
         if( ($this->registry->user) != null && $this->registry->user->isAdmin() ){
-            $html = '<div class="edit" id="'.$res['id'].'">'.$res['text'].'</div>';
+            $html = '<div class="edit" oncontextmenu="return false" id="'.$res['id'].'">'.$res['text'].'</div>';
         }
         else{
             $html = $res['text'];
@@ -62,14 +62,6 @@ abstract class Model {
 
 
         return $html;
-    }
-
-    public function getTextByID($id){
-
-        $sql = "SELECT text FROM texts WHERE id = '".$id."' ";
-        $res = $this->registry->db->query($sql)->row['text'];
-
-        return $res;
     }
 
 } 

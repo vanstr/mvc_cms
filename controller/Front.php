@@ -12,9 +12,12 @@ class FrontController extends Controller {
     public function execute() {
 
         $controllers = array();
-        $controllers[] = new ContentController($this->registry);
-        //$controllers[] = new AuthController($this->registry);
-        //$controllers[] = new CommentController($this->registry);
+        if( !$this->registry->user->isAdmin() ){
+            $controllers[] = new ContentController($this->registry);
+        }else{
+            $controllers[] = new AdminContentController($this->registry);
+        }
+        $controllers[] = new AuthController($this->registry);
         //$controllers[] = new ImageController($this->registry);
 
         foreach ($controllers as $controller) {
@@ -26,7 +29,7 @@ class FrontController extends Controller {
             $tpl = $this->registry->tpl;
             $result = $tpl->draw('html', $return_string = true);
         } else {
-            $result = $this->response;
+            $result = $this->registry->response[0];
         }
 
         return $result;

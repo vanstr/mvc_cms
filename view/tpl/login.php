@@ -49,7 +49,7 @@
 
                         <div class="form">
                             <form method="POST" name="signin" action="?content=login">
-                            <input type="hidden" name="action" value="login" />
+                            <input type="hidden" name="action" value="Login" />
                             <input name="login" type="text" placeholder="Login" />
                             <input name="password" type="password" placeholder="Password" />
                             <!--

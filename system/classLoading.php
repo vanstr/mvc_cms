@@ -1,7 +1,7 @@
 <?php
 
 
-$directorys = array(
+$directories = array(
     DIR_SYSTEM,
     DIR_SYSTEM . 'structures/',
     DIR_MODEL,
@@ -10,12 +10,12 @@ $directorys = array(
 );
 
 // ADMIN
-if(true) $directorys[] = DIR_MODEL . 'admin/';
+if(true) $directories[] = DIR_MODEL . 'admin/';
 
 $files = array();
 
 //scan defined dirs
-foreach ($directorys as $directory) {
+foreach ($directories as $directory) {
 
     //echo $directory;
     // scan files indirs

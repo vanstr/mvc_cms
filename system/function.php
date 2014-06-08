@@ -7,6 +7,24 @@
  */
 
 
+function getConfiguredRainTpl($isAdmin){
+    raintpl::configure("tpl_dir", DIR_RAINTPL_TPL);
+    raintpl::configure("cache_dir", DIR_RAINTPL_TMP);
+    raintpl::configure("tpl_ext", "php");
+    raintpl::configure("path_replace", false);
+    raintpl::configure("debug", APP_DEBUG);
+
+    $tpl = new RainTPL;
+    $tpl->assign("dirSRC", DIR_WEB_VIEW);
+    $tpl->assign("title", "Hello World!");
+    $tpl->assign("modelHeader","");
+    $tpl->assign("modelFooter","");
+
+    $tpl->assign("admin", $isAdmin);
+
+    return $tpl;
+}
+
 function escape($value) {
     return mysql_real_escape_string(htmlspecialchars($value));
 }
@@ -15,7 +33,9 @@ function isSilentRequest(){
 
     $result = false;
 
-    if( isset($_POST['silent']) && $_POST['silent'] == true ){
+    if( (isset($_POST['silent']) && $_POST['silent'] == true) ||
+        (isset($_GET['silent']) && $_GET['silent'] == true)
+    ){
         $result = true;
     }
 

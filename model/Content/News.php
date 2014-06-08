@@ -10,53 +10,6 @@ class NewsModel extends Model {
 
     public $tplName = 'news/news';
 
-    public $allowedActions = array(
-        'addcomment' => 'actionAddComment',
-        // must be admin
-        'addnews' => 'actionAddNews',
-        'deletecomment' => 'actionDeleteComment',
-        'deletenews' => 'actionDeleteNews',
-        'editnews' => 'actionEditNews',
-    );
-
-    public function actionAddNews(){
-        if( $this->registry->user->isAdmin() ){
-            $this->registry->db->insertQuery("news", array("topic" => "new", "text"=>"new"));
-        }
-        else{
-            d_Echo("access denied");
-        }
-    }
-
-    public function actionDeleteComment(){
-        if( $this->registry->user->isAdmin() ){
-            $this->registry->db->deleteQuery( "comments", array("id" => (int)$_GET['comment_id']) );
-            header('Location: ?content=news&id='.$_GET['id'] );
-        }
-        else{
-            d_Echo("access denied");
-        }
-    }
-
-    public function actionDeleteNews(){
-        if( $this->registry->user->isAdmin() ){
-            $this->registry->db->deleteQuery( "news", array("id" => (int)$_GET['id']) );
-            header('Location: ?content=news' );
-        }
-        else{
-            d_Echo("access denied");
-        }
-    }
-
-    public function actionAddComment(){
-        $sql = "INSERT INTO comments ( author, email, news_id, message, date ) VALUES ('".escape($_POST['author'])."', '".escape($_POST['email'])."', ".(int)$_POST['newsID'].", '".escape($_POST['message'])."', now())";
-        $res = $this->registry->db->query($sql);
-        if( $res == true ){
-            d_echo("actionAddComment: true" );
-            d_echo($_POST);
-        }
-    }
-
     public function render() {
         //header('Location: ?content=news' );
 

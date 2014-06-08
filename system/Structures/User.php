@@ -12,7 +12,7 @@ class User{
     private $loggedIn = false;
     private $id = 0;
 
-    /** @var Registry */
+    /** @var MySQL */
     public $db;
 
 
@@ -21,10 +21,10 @@ class User{
         $this->db = $db;
 
         if( isset($_SESSION['user_id']) && $_SESSION['user_id'] != null ){
-            d_echo("user constructor");
+            //d_echo("user constructor");
             $userId = (int)$_SESSION['user_id'];
             $sql = "SELECT * FROM users WHERE id= " . $userId;
-            $db = $this->db->db;
+            $db = $this->db;
             $result = $db->query($sql);
             if ($result->num_rows != 0) {
                 if (($result->row['type']) == "admin") {
@@ -34,7 +34,7 @@ class User{
                 $this->loggedIn = true;
             }
         }
-        d_echo($this);
+        //d_echo($this);
     }
 
     public function getID() {

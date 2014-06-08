@@ -11,6 +11,9 @@ class Registry {
     /** @var  */
     public $url;
 
+    /** @var  */
+    public $response;
+
     /** @var MySQL */
     public $db;
 

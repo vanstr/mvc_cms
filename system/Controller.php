@@ -8,8 +8,6 @@
 
 class Controller {
 
-    public $response = "";
-
     /** @var Registry */
     public $registry;
 
@@ -27,21 +25,21 @@ class Controller {
     public final function processRequests() {
 
         d_echo("Class:" . get_class($this));
-        d_echo(get_class_methods(get_class($this)));
+        //d_echo(get_class_methods(get_class($this)));
 
         if (isset($_GET['action'])) {
-            $methodName = "actionGet" . ucfirst(strtolower(escape($_GET['action'])));
+            $methodName = "action" . ucfirst(strtolower(escape($_GET['action'])));
             if (method_exists($this, $methodName)) {
-                $this->$methodName();
+                $this->registry->response[] = $this->$methodName($_GET);
+            }
+        }
+        if (isset($_POST['action'])) {
+            $methodName = "action" . ucfirst(strtolower(escape($_POST['action'])));
+            if (method_exists($this, $methodName)) {
+                $this->registry->response[] = $this->$methodName($_POST);
             }
         }
 
-        if (isset($_POST['action'])) {
-            $methodName = "actionGet" . ucfirst(strtolower(escape($_POST['action'])));
-            if (method_exists($this, $methodName)) {
-                $this->$methodName();
-            }
-        }
     }
 
     public function processActivity() {

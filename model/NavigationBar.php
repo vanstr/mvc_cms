@@ -10,7 +10,6 @@ class NavigationBarModel extends Model {
 
     public $tplName = 'navbar';
 
-
     public function render() {
 
         $tpl = $this->registry->tpl;

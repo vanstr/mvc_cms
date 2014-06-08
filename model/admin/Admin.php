@@ -6,24 +6,8 @@
  * Time: 13:22
  */
 
-class Admin extends Model{
+class AdminModel extends Model{
     public $tplName = 'admin/admin';
-
-    public $allowedActions = array(
-        'edittext' => 'actionEditText'
-    );
-
-    public function getModelHeaderHTML() {
-        //return '<link href="' . DIR_WEB_VIEW . 'css/contact.css" rel="stylesheet"/>';
-    }
-
-    public function actionEditText(){
-        d_echo($_POST);
-        $this->registry->db->updateQuery("texts", array('text' => $_POST['newvalue']), array('id'=>$_POST['id']));
-
-        return $this->getTextByID($_POST['id']);
-    }
-
 
     public function render() {
 

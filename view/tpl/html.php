@@ -33,21 +33,30 @@
 <script src="{$dirSRC}js/bootstrap.min.js"></script>
 <script src="{$dirSRC}js/theme.js"></script>
 <script type="text/javascript" src="{$dirSRC}js/flexslider.js"></script>
+
+{if="$admin"}
 <script type="text/javascript" src="{$dirSRC}js/jquery.jeditable.mini.js"></script>
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
-        $('.edit').editable('?content=admin&part=text', {
-            type      : 'textarea',
-            indicator : 'Saving...',
-            cancel    : 'Cancel',
-            submit    : 'OK',
-            tooltip   : 'refresh',
-            id        : 'id',
-            name      : 'newvalue',
-            submitdata : {action: "edittext", silent: "true"}
+        $('.edit').mousedown(function(event) {
+            if (event.which != 3) return;
+            event.preventDefault();
+
+            $(this).editable('?content=admin&part=text', {
+                    type      : 'textarea',
+                    indicator : 'Saving...',
+                    cancel    : 'Cancel',
+                    submit    : 'OK',
+                    tooltip   : 'refresh',
+                    id        : 'id',
+                    name      : 'newvalue',
+                    submitdata : {action: "EditText", silent: "true"}
+            }).click();
         });
     });
 </script>
+{else} {/if}
+
 {$modelFooter}
 </body>
 </html>

@@ -48,4 +48,15 @@ class ContentController extends Controller {
 
         $this->registry->tpl->assign("body", $body);
     }
+
+
+    protected function actionAddComment($data){
+        $sql = "INSERT INTO comments ( author, email, news_id, message, date ) VALUES ('".escape($data['author'])."', '".escape($data['email'])."', ".(int)$data['newsID'].", '".escape($data['message'])."', now())";
+        $res = $this->registry->db->query($sql);
+        if( $res == true ){
+            d_echo("actionAddComment: true" );
+            d_echo($data);
+        }
+    }
+
 } 
