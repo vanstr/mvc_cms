@@ -6,18 +6,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="?page=news">
+            <a class="brand" href="?content=news">
                 <strong>{$navbarTitle}</strong>
             </a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav pull-right">
                     <li><a href="index.php">{$pageHome}</a></li>
-                    <li><a href="?page=aboutus">{$pageAboutus}</a></li>
-                    <li><a href="?page=portfolio">{$pagePortfolio}</a></li>
-                    <li><a href="?page=contact">{$pageContact}</a></li>
-                    {if="$loggedOut"} <li><a href="?page=login">{$loginHeader}</a> </li>{else} <li><a href="?page=login&action=logout">{$loginLogout}</a> </li> {/if}
-                    {if="$admin"} <li><a href="?page=admin">{$pageAdmin}</a> </li>{else} {/if}
+                    <li><a href="?content=aboutus">{$pageAboutus}</a></li>
+                    <li><a href="?content=portfolio">{$pagePortfolio}</a></li>
+                    <li><a href="?content=contact">{$pageContact}</a></li>
+                    {if="$loggedOut"} <li><a href="?content=login">{$loginHeader}</a> </li>{else} <li><a href="?content=login&action=logout">{$loginLogout}</a> </li> {/if}
+                    {if="$admin"} <li><a href="?content=admin">{$pageAdmin}</a> </li>{else} {/if}
                 </ul>
             </div>
         </div>

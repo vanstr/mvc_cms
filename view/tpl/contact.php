@@ -6,7 +6,7 @@
         <div class="row contact">
             {$contactMarketingText}
 
-            <form name="" action="?page=contact" method="POST" />
+            <form name="" action="?content=contact" method="POST" />
                 <input type="hidden" name="action" value="sendmessage" />
                 <div class="row form">
                     <div class="span6 box">

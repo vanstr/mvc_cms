@@ -15,7 +15,7 @@ class URL {
     public function getLink() {
 
         $link = '/?';
-        if( isset($params['page']) )  $link .= 'page=' .$params['page'] . '&';
+        if( isset($params['content']) )  $link .= 'content=' .$params['content'] . '&';
 
         if( isset($params['id']) )  $link .= 'id=' .$params['id'] . '&';
 
@@ -37,7 +37,7 @@ class URL {
 
         // TODO maybe better parse/explode REQUEST_URI
         $data = array();
-        if( isset($_GET['page']) )  $data['page'] = $_GET['page'];
+        if( isset($_GET['content']) )  $data['content'] = $_GET['content'];
         if( isset($_GET['part']) )  $data['part'] = $_GET['part'];
         if( isset($_GET['id']) )    $data['id']   = $_GET['id'];
 

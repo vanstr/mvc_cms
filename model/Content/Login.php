@@ -6,7 +6,7 @@
  * Time: 23:49
  */
 
-class Login extends Model {
+class LoginModel extends Model {
     public $tplName = 'login';
     public $allowedActions = array(
         'login' => 'actionLogin',
@@ -21,7 +21,7 @@ class Login extends Model {
                 d_echo("auth failed");
             } else {
                 $_SESSION['user_id'] = $query->row['id'];
-                header('Location: ?page=news');
+                header('Location: ?content=news');
             }
         }
     }
@@ -30,11 +30,11 @@ class Login extends Model {
         $this->registry->user->setAdmin(false);
         $this->registry->user->setLoggedIn(false);
         $_SESSION['user_id'] = null;
-        header('Location: ?page=news' );
+        header('Location: ?content=news' );
     }
 
     public function render() {
-        //header('Location: ?page=news' );
+        //header('Location: ?content=news' );
 
         $this->registry->tpl->assign("loginHeader", $this->getTextByName("loginHeader"));
         $this->registry->tpl->assign("loginToYourAccount", $this->getTextByName("loginToYourAccount"));

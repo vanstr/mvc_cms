@@ -37,14 +37,12 @@ $tpl->assign("admin", $registry->user->isAdmin());
 $registry->tpl = $tpl;
 
 
-$c = new ControllerFront($registry);
-$c->execute();
+$c = new FrontController($registry);
+$response = $c->execute();
+
+echo $response;
 
 
-// you can draw the output  $tpl->draw( 'page' );
-// or the template output string by setting $return_string = true:
-$tpl = $c->registry->tpl;
-echo $tpl->draw('html', $return_string = true);
 
 /*
 

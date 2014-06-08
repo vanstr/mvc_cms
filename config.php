@@ -14,6 +14,10 @@ define('DIR_RAINTPL_TPL', 'view/tpl/');
 
 define('TPL_EXTENSION', '.php');
 
+//
+define('MODEL_CLASS_SUFFIX', 'Model');
+define('DEFAULT_CONTENT_MODEL', 'NewsModel');
+
 
 // DB
 define('DB_HOSTNAME', 'localhost');

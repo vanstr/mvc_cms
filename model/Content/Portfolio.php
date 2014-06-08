@@ -6,7 +6,7 @@
  * Time: 22:16
  */
 
-class Portfolio extends Model {
+class PortfolioModel extends Model {
 
     public $tplName = 'portfolio/portfolio';
 

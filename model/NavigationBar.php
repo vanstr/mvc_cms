@@ -6,7 +6,7 @@
  * Time: 00:30
  */
 
-class NavigationBar extends Model {
+class NavigationBarModel extends Model {
 
     public $tplName = 'navbar';
 

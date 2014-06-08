@@ -11,7 +11,7 @@
             <div class="span7">
                 <div class="name">
                     {$value.author}
-                    {if="$admin"} <a href="?page=news&id={$newsID}&action=deletecomment&comment_id={$value.id}">delete</a> {else} {/if}
+                    {if="$admin"} <a href="?content=news&id={$newsID}&action=deletecomment&comment_id={$value.id}">delete</a> {else} {/if}
                 </div>
                 <div class="date">
                     {$value.date}
@@ -28,7 +28,7 @@
 
 <div class="new_comment">
     <h4>{$commentAddNew}</h4>
-    <form action="?page=news&id={$newsID}" method="POST">
+    <form action="?content=news&id={$newsID}" method="POST">
         <input type="hidden" name="action" value="addcomment" />
         <input type="hidden" name="newsID" value="{$newsID}" />
         <div class="row">

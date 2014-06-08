@@ -6,7 +6,7 @@
  * Time: 22:14
  */
 
-class Aboutus extends Model{
+class AboutusModel extends Model{
 
     public $tplName = 'aboutus';
 

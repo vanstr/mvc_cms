@@ -1,7 +1,7 @@
 
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
-        $('.edit').editable('?page=admin&part=text', {
+        $('.edit').editable('?content=admin&part=text', {
             type      : 'textarea',
             indicator : 'Saving...',
             cancel    : 'Cancel',

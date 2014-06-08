@@ -24,10 +24,10 @@ class Controller2 {
 
     public function initModel(){
 
-        if (!isset($_GET['page'])) {
+        if (!isset($_GET['content'])) {
             $this->model = new News($this->registry);
         } else {
-            $modelClass = $_GET['page'];
+            $modelClass = $_GET['content'];
             //$file = DIR_MODEL . $modelClass . TPL_EXTENSION;
 
             d_echo(' class: ' . class_exists($modelClass));
@@ -84,7 +84,7 @@ class Controller2 {
         $tpl->assign("body", $body);
         $tpl->assign("footer", $footer);
 
-        // you can draw the output  $tpl->draw( 'page' );
+        // you can draw the output  $tpl->draw( 'content' );
         // or the template output string by setting $return_string = true:
         return $tpl->draw('html', $return_string = true);
 

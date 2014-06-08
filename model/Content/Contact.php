@@ -6,7 +6,7 @@
  * Time: 19:49
  */
 
-class Contact extends Model{
+class ContactModel extends Model{
 
     public $tplName = 'contact';
 

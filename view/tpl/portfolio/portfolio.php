@@ -30,7 +30,7 @@
                     {loop="portfolioItems"}
                         <div class="photo {$value.type}">
                             <img src="{$dirSRC}img/{$value.image}" />
-                            <a href="?page=portfolio&id={$value.id}" class="mask">
+                            <a href="?content=portfolio&id={$value.id}" class="mask">
                                 <h3>{$value.header}</h3>
                                 <small>{$value.type}</small>
                                 <div class="more">+</div>

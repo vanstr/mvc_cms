@@ -7,7 +7,7 @@
         </div>
 
         {$news}
-        {if="$admin"} <a href="?page=news&action=addnews">add news</a> {else} {/if}
+        {if="$admin"} <a href="?content=news&action=addnews">add news</a> {else} {/if}
 
     </div>
 </div>

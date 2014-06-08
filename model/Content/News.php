@@ -6,7 +6,7 @@
  * Time: 19:50
  */
 
-class News extends Model {
+class NewsModel extends Model {
 
     public $tplName = 'news/news';
 
@@ -31,7 +31,7 @@ class News extends Model {
     public function actionDeleteComment(){
         if( $this->registry->user->isAdmin() ){
             $this->registry->db->deleteQuery( "comments", array("id" => (int)$_GET['comment_id']) );
-            header('Location: ?page=news&id='.$_GET['id'] );
+            header('Location: ?content=news&id='.$_GET['id'] );
         }
         else{
             d_Echo("access denied");
@@ -41,7 +41,7 @@ class News extends Model {
     public function actionDeleteNews(){
         if( $this->registry->user->isAdmin() ){
             $this->registry->db->deleteQuery( "news", array("id" => (int)$_GET['id']) );
-            header('Location: ?page=news' );
+            header('Location: ?content=news' );
         }
         else{
             d_Echo("access denied");
@@ -58,7 +58,7 @@ class News extends Model {
     }
 
     public function render() {
-        //header('Location: ?page=news' );
+        //header('Location: ?content=news' );
 
         $this->registry->tpl->assign("newsHeader",
             $this->getTextByName("newsHeader"));

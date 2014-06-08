@@ -5,7 +5,7 @@ $directorys = array(
     DIR_SYSTEM,
     DIR_SYSTEM . 'structures/',
     DIR_MODEL,
-    DIR_MODEL . 'news/',
+    DIR_MODEL . 'content/',
     DIR_CONTROLLER
 );
 

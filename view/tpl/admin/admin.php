@@ -11,10 +11,10 @@
 
             <div class="span2">
                 <ul>
-                    <li><a href="?page=admin&part=texts">Texts</a></li>
-                    <li><a href="?page=admin&part=portfolio">Portfolio</a></li>
-                    <!--<li><a href="?page=admin&part=news">News</a></li>-->
-                    <li><a href="?page=admin&part=contact">Contact</a></li>
+                    <li><a href="?content=admin&part=texts">Texts</a></li>
+                    <li><a href="?content=admin&part=portfolio">Portfolio</a></li>
+                    <!--<li><a href="?content=admin&part=news">News</a></li>-->
+                    <li><a href="?content=admin&part=contact">Contact</a></li>
                 </ul>
             </div>
 

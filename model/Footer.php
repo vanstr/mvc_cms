@@ -6,7 +6,7 @@
  * Time: 00:40
  */
 
-class Footer extends Model {
+class FooterModel extends Model {
     public $tplName = 'footer';
 
     public function render() {
